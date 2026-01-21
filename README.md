@@ -1,1 +1,3 @@
-# int
+# InT: Self-Proposed Interventions Enable Credit Assignment in LLM Reasoning
+
+Code coming soon...

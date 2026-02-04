@@ -6,7 +6,7 @@
 #SBATCH --cpus-per-task=16
 #SBATCH --partition=ghx4
 #SBATCH --time=24:00:00
-#SBATCH --account=account
+#SBATCH --account=ACCOUNT
 #SBATCH --gpus-per-node=1
 #SBATCH --gpu-bind=verbose,closest
 
@@ -21,7 +21,6 @@ export TORCH_COMPILE_CACHE_DIR=/tmp/$USER/torch_cache
 export TORCHINDUCTOR_CACHE_DIR=/tmp/$USER/torch_cache
 export HF_HOME=/tmp/$USER/hf_cache
 
-
 batch_number=$1
 model_path=MODEL_PATH
 logs_path=LOGS_PATH
@@ -33,14 +32,13 @@ mkdir -p $output_path
 echo $logs_path
 echo $model_path
 
-# activate environment with vllm installed
 source /user/miniconda3/bin/activate vllm
 
-PYTHONUNBUFFERED=1 python ~/int/propose_interventions.py \
-    --input_dataset_name CMU-AIRe/InT-hard-set-with-incorrect-attempts \
+PYTHONUNBUFFERED=1 python ~/int/sample_rollouts.py \
+    --input_dataset_name CMU-AIRe/InT-hard-set \
     --dataset_split train \
-    --dataset_start $((batch_number * 1024)) \
-    --dataset_end $(((batch_number + 1) * 1024)) \
+    --dataset_start $((batch_number * 512)) \
+    --dataset_end $(((batch_number + 1) * 512)) \
     --output_path $output_path \
     -K 4 \
     --model $model_path \
@@ -49,4 +47,4 @@ PYTHONUNBUFFERED=1 python ~/int/propose_interventions.py \
     --top_k 20 \
     --max_tokens 16384 \
     --tensor_parallel_size 1 \
-    --batch_size 256 > $logs_path/propose_interventions_${model_size}_${batch_number}.log 2>&1
+    --batch_size 256 > $logs_path/sample_rollouts_$batch_number.log 2>&1

@@ -5,7 +5,7 @@ We provide instructions to reproduce our results below. As you run the `.sh` and
 We run our experiments on [Qwen3-4B-Instruct-2507](https://huggingface.co/Qwen/Qwen3-4B-Instruct-2507).
 
 ### Step 0: Curate data and setup environment
-We provide a [dataset]((https://huggingface.co/datasets/CMU-AIRe/InT-hard-set)) of **very** difficult problems sourced from various datasets, mostly selected by filtering for those with zero reward under 64 rollouts.
+We provide a [dataset](https://huggingface.co/datasets/CMU-AIRe/InT-hard-set) of **very** difficult problems sourced from various datasets, mostly selected by filtering for those with zero reward under 64 rollouts.
 
 Install vllm, datasets, transformers, math-verify, and tqdm in a Python 3.10 experiment.
 
@@ -74,5 +74,7 @@ if "int" in dataset_names:
 Run `eval.sh`.
 
 It'll evaluate the model on [our hard eval dataset](https://huggingface.co/datasets/CMU-AIRe/InT-test-set).
+
+---
 
 If you run into any problems with reproducing the code, please submit a Github issue!
